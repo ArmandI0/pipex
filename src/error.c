@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_parsing.c                                    :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 15:31:10 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/18 11:58:52 by aranger          ###   ########.fr       */
+/*   Created: 2024/01/18 10:16:18 by aranger           #+#    #+#             */
+/*   Updated: 2024/01/18 13:40:29 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	check_file_exist(char *path)
+t_bool	command_error(char *command)
 {
-	int	a;
-
-	a = access(path, F_OK);
-	if (a == -1)
-		return(0);
-	a = access(path, W_OK);
-	if (a == -1)
-		return (-1);
-	return (1);
+	ft_putstr_fd("command not found: ", 2);
+	ft_putstr_fd(command, 2);
+	ft_putstr_fd("/n", 2);
+	return (FALSE);
 }
 
-t_bool	check_path_acces(char *path)
+t_bool	file_error(char *file)
 {
-	int	a;
-
-	a = access(path, F_OK | R_OK);
-	if (a == -1)
-		return(FALSE);
-	return (TRUE);
+	ft_putstr_fd("no such file or directory: ", 2);
+	ft_putstr_fd(file, 2);
+	ft_putstr_fd("/n", 2);
+	return (FALSE);
 }

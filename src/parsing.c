@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 09:06:34 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/17 16:12:38 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/18 12:12:02 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,20 @@ t_bool	parse_entry(int argc, char *argv[], char *envp[])
 	char	*command_path;
 
 	i = 2;
-	if (check_file_exist(argv[1]) == FALSE)
-	{	
-		ft_putstr_fd("no such file or directory: ", 2);
-		ft_putstr_fd(argv[1], 2);
-		return (FALSE);
-	}
+	if (check_path_acces(argv[1]) == FALSE)
+		return (file_error(argv[1]));
 	while (i < argc - 1)
 	{
-		command_path = set_command_path(envp, argv[i]);
+		command_path = find_command_path(envp, argv[i]);
 		if (command_path == NULL)
-		{
-			ft_putstr_fd("command not found: ", 2);
-			ft_putstr_fd(argv[i], 2);	
-			return (FALSE);
-		}
+			return (command_error(argv[i]));
+		ft_printf("%s\n", command_path); //affiche le path 
 		free (command_path);
 		i++;
 	}
+	if (check_file_exist(argv[argc - 1]) == -1)
+		return (file_error(argv[argc - 1]));
 	return (TRUE);
 }
+
+

@@ -6,18 +6,32 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:11:41 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/17 16:20:55 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/18 10:12:50 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+static char		*set_command_path(char *envp[], char *command);
 static char		**find_path(char *envp[]);
 static char		**join_path_command(char **all_path, char *command);
-static t_bool	check_path_acces(char *path);
 static char		*set_command(char *command);
 
-char	*set_command_path(char *envp[], char *command)
+char		*find_command_path(char *envp[], char *command)
+{
+	char	*command_path;
+
+	command_path = NULL;
+	if (check_path_acces(command) == TRUE)
+	{
+		command_path = ft_strdup(command);
+		return (command_path);
+	}
+	command_path = set_command_path(envp, command);
+	return (command_path);
+}
+
+static char	*set_command_path(char *envp[], char *command)
 {
 	char	**all_path;
 	char	*command_path;
@@ -62,7 +76,7 @@ static char	**join_path_command(char **all_path, char *command)
 		join_path[i] = ft_strjoin(all_path[i], command);
 		i++;
 	}
-	free_split(all_path);
+	free(all_path);
 	return (join_path);
 }
 
@@ -81,16 +95,6 @@ static char	**find_path(char *envp[])
 		j++;
 	split_path = ft_split(&envp[i][j + 1], ':');
 	return (split_path);
-}
-
-static t_bool	check_path_acces(char *path)
-{
-	int	a;
-
-	a = access(path, F_OK | R_OK);
-	if (a == -1)
-		return(FALSE);
-	return (TRUE);
 }
 
 static char	*set_command(char *command)
