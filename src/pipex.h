@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:46 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/18 11:30:14 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/20 15:02:20 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,19 @@
 
 typedef int	t_bool;
 
+typedef	struct s_command
+{
+	char	*command_path;
+	char	**command;
+}				t_command;
+
+typedef struct s_entry
+{
+	char		*infile;
+	t_command	*command_list;
+	char		*outfile;
+}				t_entry;
+
 int		check_file_exist(char *path);
 char	*find_command_path(char *envp[], char *command);
 void	print_split(char **split); // a supprimer
@@ -28,4 +41,6 @@ t_bool	parse_entry(int argc, char *argv[], char *envp[]);
 t_bool	check_path_acces(char *path);
 t_bool	command_error(char *command);
 t_bool	file_error(char *file);
-#endif 
+void	free_command_struct(t_command *list);
+
+#endif
