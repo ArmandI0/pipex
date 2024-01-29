@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:46 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/20 15:02:20 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/29 12:07:14 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ t_bool	parse_entry(int argc, char *argv[], char *envp[]);
 t_bool	check_path_acces(char *path);
 t_bool	command_error(char *command);
 t_bool	file_error(char *file);
-void	free_command_struct(t_command *list);
+void	free_cmd_struct(t_command *cmd);
+int	first_child(t_command *cmd, char *f_path, int pipe_fd[2], char *envp[]);
+int	last_child(t_command *cmd, char *f_path, int pipe_fd[2], char *envp[]);
+t_command	*struct_command(char *arg, char *envp[]);
+
 
 #endif

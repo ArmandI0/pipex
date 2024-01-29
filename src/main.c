@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:35 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/29 10:55:04 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/29 13:52:55 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,61 +18,39 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char	*path;
-	char	**command;
-	int		file_fd;
-	int		pipe_fd[2];
-	int		pid;
-	argc++;
+	t_command	*cmd;
+	int			pipe_fd[2];
+	int			pid;
 
-	command = ft_split(argv[2], ' ');
-	path = find_command_path(envp, argv[2]);
-
-	//open infile
-
-	file_fd = open(argv[1], O_RDONLY);
-	if (file_fd == -1)
-		return(0);
-	dup2(file_fd, STDIN_FILENO);
-	close(file_fd);
+	if (argc != 5)
+		return (0);
 	if (pipe(pipe_fd) < 0)
 		return (0);
-
+	cmd = struct_command(argv[2], envp);
+	if (cmd == NULL)
+		command_error(*cmd->command);
+	else
+	{
+		if ((pid = fork()) < 0)
+			return (0);
+		if (pid == 0)
+			first_child(cmd, argv[1], pipe_fd, envp);
+		else
+		{
+			waitpid(pid, NULL, 0);
+			free_cmd_struct(cmd);
+		}
+	}
+	cmd = struct_command(argv[3], envp);
 	if ((pid = fork()) < 0)
 		return (0);
 	if (pid == 0)
-	{
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]);
-		close(pipe_fd[0]);
-		execve(path, command, envp);
-	}
-	free_split(command);
-	free(path);
-	if ((pid = fork()) < 0)
-		return (0);
-	command = ft_split(argv[3], ' ');
-	path = find_command_path(envp, argv[3]);
-	file_fd = open(argv[4], O_RDWR | O_CREAT | O_TRUNC);
-	if (file_fd == -1)
-		return(0);
-	if (pid == 0)
-	{
-		dup2(pipe_fd[0], STDIN_FILENO);
-		dup2(file_fd, STDOUT_FILENO);
-        close(file_fd);
-		close(pipe_fd[1]);
-		close(pipe_fd[0]);
-		close(file_fd);
-		execve(path, command, envp);
-	}
+		ft_printf("%d", last_child(cmd, argv[4], pipe_fd, envp));
 	else
 	{
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
-		close(file_fd);
-		wait(0);
+		waitpid(pid, NULL, 0);
+		free_cmd_struct(cmd);
 	}
-	free_split(command);
-	free(path);
 }
