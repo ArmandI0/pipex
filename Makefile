@@ -6,7 +6,7 @@
 #    By: aranger <aranger@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 12:15:59 by aranger           #+#    #+#              #
-#    Updated: 2024/01/29 11:57:46 by aranger          ###   ########.fr        #
+#    Updated: 2024/01/29 19:05:42 by aranger          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,7 @@ LIBFT_A			= lib/libft/libft.a
 SRCS			= 	\
 					main.c \
 					find_command_path.c \
-					parsing.c \
-					utils_parsing.c \
-					utils_brouillon.c \
+					utils.c \
 					utils_free.c \
 					error.c \
 					childs.c \
