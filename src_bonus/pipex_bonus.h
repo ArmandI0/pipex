@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:46 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/30 12:04:38 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/30 13:36:54 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 # define TRUE 1
 # define FALSE 0
 # include <fcntl.h>
@@ -27,6 +27,13 @@ typedef struct s_command
 	char	**command;
 }				t_command;
 
+typedef struct s_pipe
+{
+	int	pipe_fd1[2];
+	int pipe_fd2[2];
+	int	status;
+}				t_pipe;
+
 int			check_file_exist(char *path);
 char		*find_command_path(char **envp, char *command);
 void		free_split(char **split);
@@ -36,11 +43,10 @@ void		file_error(char *file);
 void		free_cmd_struct(t_command *cmd);
 int			first_child(t_command *cmd, char *f_path,
 				int pipe_fd[2], char **envp);
-int			last_child(t_command *cmd, char *f_path,
-				int pipe_fd[2], char **envp);
+int	last_child(t_command *cmd, char *f_path, t_pipe p_fd, char **envp);
 t_command	*struct_command(char *arg, char **envp);
 int			close_pipe(int pipe_fd[2]);
-int			close_and_finish(t_command *cmd, int pipe_fd[2], char *arg);
-int			pipe_to_pipe_child(t_command *cmd, int pipe_fd1[2], int pipe_fd2[2], char **envp);
+int			close_and_finish(t_command *cmd, t_pipe p_fd, char *arg);
+int			pipe_to_pipe_child(t_command *cmd, t_pipe p_fd, char **envp);
 
 #endif

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_command_path.c                                :+:      :+:    :+:   */
+/*   find_command_path_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:11:41 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/30 10:53:55 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/30 11:11:01 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 static char		*set_command_path(char **envp, char *command);
 static char		**find_path(char **envp);

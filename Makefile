@@ -6,7 +6,7 @@
 #    By: aranger <aranger@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 12:15:59 by aranger           #+#    #+#              #
-#    Updated: 2024/01/29 19:05:42 by aranger          ###   ########.fr        #
+#    Updated: 2024/01/30 11:13:21 by aranger          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,12 @@ D_OBJS			= mkdir -p $(@D)
 #-BONUS-#
 
 SRCS_BONUS		=	\
-					
+					childs_bonus.c \
+					error_bonus.c \
+					find_command_path_bonus.c \
+					main_bonus.c \
+					utils_bonus.c \
+					utils_free_bonus.c \
 
 SRC_BONUS		= $(addprefix src_bonus/, $(SRCS_BONUS))
 OBJS_BONUS		= $(SRC_BONUS:$(SRC_BONUS_DIR)/%.c=$(OBJ_BONUS_DIR)/%.o)
@@ -83,7 +88,7 @@ fclean: 		clean
 
 re:				fclean all
 
-bonus :			$(LIBFT_A) $(OBJS_BONUS)
-				@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT_A) -o $(NAME_BONUS)
+bonus :			$(OBJS_BONUS) $(LIBFT_A)
+				@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT_A) -o $(NAME)
 
 .PHONY : 		all clean fclean re bonus

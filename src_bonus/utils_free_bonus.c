@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_free.c                                       :+:      :+:    :+:   */
+/*   utils_free_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:27:15 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/30 10:57:06 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/30 13:04:39 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-int	close_and_finish(t_command *cmd, int pipe_fd[2], char *arg)
+int	close_and_finish(t_command *cmd, t_pipe p_fd, char *arg)
 {
 	free_cmd_struct(cmd);
-	close_pipe(pipe_fd);
+	close_pipe(p_fd.pipe_fd1);
+	close_pipe(p_fd.pipe_fd2);
 	file_error(arg);
 	return (1);
 }
