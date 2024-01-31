@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:35 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/30 13:40:48 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/31 15:05:21 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 int	exec_pipe(int argc, char **argv, char **envp)
 {
 	t_command	*cmd;
-	t_pipe		p_fd;
+	t_pipe		*p_fd;
 	int			i = 2;
 
-	p_fd.status = 0;
-	if (pipe(p_fd.pipe_fd1) < 0)
-		return (0);
-	if (pipe(p_fd.pipe_fd2) < 0)
-		return (0);
+	p_fd = init_s_pipe();
+	if (p_fd == NULL)
+		return (-1);
 	while (i < argc - 1)
 	{
 		cmd = struct_command(argv[i], envp);
@@ -30,7 +28,7 @@ int	exec_pipe(int argc, char **argv, char **envp)
 			command_error(argv[i]);
 		if (i == 2)
 		{
-			if (first_child(cmd, argv[1], p_fd.pipe_fd1, envp) == 0)
+			if (first_child(cmd, argv[1], p_fd->pipe_fd1, envp) == 0)
 				return (close_and_finish(cmd, p_fd, argv[1]));
 		}
 		else if (i == argc - 2)
@@ -40,6 +38,7 @@ int	exec_pipe(int argc, char **argv, char **envp)
 		}
 		else
 			pipe_to_pipe_child(cmd, p_fd, envp);
+		ft_putstr_fd(ft_itoa(p_fd->status), 2);
 		i++;
 	}
 	return (0);
@@ -67,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_putstr_fd("too few arguments\n", 2);
 		return (0);
 	}
-	cmd = struct_command(argv[3], envp);
+	cmd = struct_command(argv[argc - 2], envp);
 	if (cmd == NULL)
 	{
 		command_error(argv[3]);

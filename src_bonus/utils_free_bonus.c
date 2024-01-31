@@ -6,17 +6,18 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:27:15 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/30 13:04:39 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/30 15:39:08 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-int	close_and_finish(t_command *cmd, t_pipe p_fd, char *arg)
+int	close_and_finish(t_command *cmd, t_pipe *p_fd, char *arg)
 {
 	free_cmd_struct(cmd);
-	close_pipe(p_fd.pipe_fd1);
-	close_pipe(p_fd.pipe_fd2);
+	close_pipe(p_fd->pipe_fd1);
+	close_pipe(p_fd->pipe_fd2);
+	free(p_fd);
 	file_error(arg);
 	return (1);
 }

@@ -6,11 +6,26 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 15:31:10 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/30 11:11:06 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/30 15:35:22 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+
+t_pipe	*init_s_pipe(void)
+{
+	t_pipe	*p_fd;
+
+	p_fd = malloc(sizeof(t_pipe));
+	if (p_fd == NULL)
+		return (NULL);
+	p_fd->status = 0;
+	if (pipe(p_fd->pipe_fd1) < 0)
+		return (NULL);
+	if (pipe(p_fd->pipe_fd2) < 0)
+		return (NULL);
+	return (p_fd);		
+}
 
 t_command	*struct_command(char *arg, char **envp)
 {
