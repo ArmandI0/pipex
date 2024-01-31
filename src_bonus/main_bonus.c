@@ -6,54 +6,38 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:35 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/31 15:05:21 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/31 18:48:54 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-int	exec_pipe(int argc, char **argv, char **envp)
+void	exec_pipe(int argc, char **argv, char **envp)
 {
 	t_command	*cmd;
-	t_pipe		*p_fd;
+	int			p_fd[2];
+	int			new_p_fd[2];
 	int			i = 2;
 
-	p_fd = init_s_pipe();
-	if (p_fd == NULL)
-		return (-1);
+	if (pipe(p_fd) < 0)
+		return ;
 	while (i < argc - 1)
 	{
 		cmd = struct_command(argv[i], envp);
 		if (cmd == NULL)
 			command_error(argv[i]);
 		if (i == 2)
-		{
-			if (first_child(cmd, argv[1], p_fd->pipe_fd1, envp) == 0)
-				return (close_and_finish(cmd, p_fd, argv[1]));
-		}
+			first_child(cmd, argv[1], p_fd, envp);
 		else if (i == argc - 2)
+			last_child(cmd, argv[argc - 1], p_fd, envp);
+		else if(cmd != NULL)
 		{
-			if (last_child(cmd, argv[argc - 1], p_fd, envp) == 0)
-				return (close_and_finish(cmd, p_fd, argv[argc - 1]));
+			if (pipe(new_p_fd) < 0)
+				return ;
+			pipe_to_pipe_child(cmd, p_fd, new_p_fd, envp);
 		}
-		else
-			pipe_to_pipe_child(cmd, p_fd, envp);
-		ft_putstr_fd(ft_itoa(p_fd->status), 2);
 		i++;
 	}
-	return (0);
-	// cmd = struct_command(argv[2], envp);
-	// if (cmd == NULL)
-	// 	command_error(argv[2]);
-	// else
-	// 	if (first_child(cmd, argv[1], pipe_fd, envp) == 0)
-	// 		return (close_and_finish(cmd, pipe_fd, argv[1]));
-	// cmd = struct_command(argv[3], envp);
-	// pipe_to_pipe_child(cmd, pipe_fd, pipe_fd2, envp);
-	// cmd = struct_command(argv[4], envp);
-	// if (last_child(cmd, argv[5], pipe_fd2, envp) == 0)
-	// 	return (close_and_finish(cmd, pipe_fd2, argv[5]));
-	// return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
