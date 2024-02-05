@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:54:56 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/31 18:56:46 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/05 16:14:01 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,17 @@ int	first_child(t_command *cmd, char *f_path, int pipe_fd[2], char **envp)
 	{
 		file_fd = open(f_path, O_RDONLY);
 		if (file_fd == -1)
-			return (close_and_finish(cmd, pipe_fd, f_path));
+			exit(exit_file_error(cmd, pipe_fd, f_path));
 		dup2(file_fd, STDIN_FILENO);
 		close(file_fd);
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close_pipe(pipe_fd);
-		execve(cmd->command_path, cmd->command, envp);
-		return (-1);
+		if (cmd != NULL)
+			execve(cmd->command_path, cmd->command, envp);
+		exit(EXIT_FAILURE);
 	}
-	else
-	{
-		waitpid(pid, NULL, 0);
-		free_cmd_struct(cmd);
-	}
+	waitpid(pid, NULL, 0);
+	free_cmd_struct(cmd);
 	return (1);
 }
 
@@ -54,8 +52,9 @@ int	pipe_to_pipe_child(t_command *cmd, int p_fd[2], int new_p_fd[2], char **envp
 		dup2(new_p_fd[1], STDOUT_FILENO);
 		close_pipe(p_fd);
 		close_pipe(new_p_fd);
-		execve(cmd->command_path, cmd->command, envp);
-		return (-1);
+		if (cmd != NULL)
+			execve(cmd->command_path, cmd->command, envp);
+		exit(EXIT_FAILURE);
 	}
 	close_pipe(p_fd);
 	waitpid(pid, NULL, 0);
@@ -77,16 +76,19 @@ int	last_child(t_command *cmd, char *f_path, int p_fd[2], char **envp)
 	{
 		file_fd = open(f_path, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (file_fd == -1)
-			return (close_and_finish(cmd, p_fd, f_path));
+		{
+			close_pipe(p_fd);
+			exit(exit_file_error(cmd, p_fd, f_path));
+		}
 		dup2(p_fd[0], STDIN_FILENO);
 		dup2(file_fd, STDOUT_FILENO);
 		close_pipe(p_fd);
 		close(file_fd);
-		execve(cmd->command_path, cmd->command, envp);
-		return (-1);
+		if (cmd != NULL)
+			execve(cmd->command_path, cmd->command, envp);
+		exit (EXIT_FAILURE);
 	}
 	close_pipe(p_fd);
-	//close(p_fd[0]);
 	waitpid(pid, NULL, 0);
 	free_cmd_struct(cmd);
 	return (1);
