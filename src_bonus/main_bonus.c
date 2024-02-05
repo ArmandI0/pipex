@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:35 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/01 18:27:58 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/31 18:48:54 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	exec_pipe(int argc, char **argv, char **envp)
 				return ;
 			pipe_to_pipe_child(cmd, p_fd, new_p_fd, envp);
 		}
-		free_cmd_struct(cmd);
 		i++;
 	}
 }

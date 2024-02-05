@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:27:15 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/01 18:26:34 by aranger          ###   ########.fr       */
+/*   Updated: 2024/01/31 15:11:02 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ int	close_pipe(int pipe_fd[2])
 
 void	free_cmd_struct(t_command *cmd)
 {
-	if (cmd != NULL)
-	{
-		if (cmd->command != NULL)
-			free_split(cmd->command);
-		if (cmd->command_path != NULL)
-			free(cmd->command_path);
-		free(cmd);
-		cmd = NULL;
-	}
+	int	i;
+
+	i = 0;
+	if (cmd->command != NULL)
+		free_split(cmd->command);
+	if (cmd->command != NULL)
+		free(cmd->command_path);
+	free(cmd);
+	cmd = NULL;
 }
 
 void	free_split(char **split)
