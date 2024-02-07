@@ -6,13 +6,13 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:23:43 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/07 11:57:39 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/07 14:54:06 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-char	*read_entry(char *limiter, int p_fd[2])
+char	*read_entry(char *limiter, int p_fd[2], t_command *cmd)
 {
 	char	*tmp;
 	int		size;
@@ -21,13 +21,15 @@ char	*read_entry(char *limiter, int p_fd[2])
 	tmp = ft_calloc(1, sizeof(char));
 	while (ft_strncmp(tmp, limiter, size) != 0)
 	{
+		ft_putstr_fd(tmp, p_fd[1]);
 		if (tmp != NULL)
 			free(tmp);
 		ft_putstr_fd("heredoc >", STDOUT_FILENO);
 		tmp = get_next_line(0);
-		ft_putstr_fd(tmp, p_fd[1]);
 	}
 	if (tmp != NULL)
 		free(tmp);
+	if (cmd != NULL)
+		free_cmd_struct(cmd);
 	return (0);
 }

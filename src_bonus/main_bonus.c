@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:35 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/07 13:57:38 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/07 14:33:33 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	exec_pipe(int argc, char **argv, char **envp, int heredoc)
 		return ;
 	while (i < argc - 1)
 	{
-		cmd = struct_command(argv[i], envp);
+		cmd = struct_command(argv[i], envp, heredoc);
 		if (i == 2 && heredoc == 0)
 			first_child(cmd, argv[1], p_fd, envp);
 		else if (i == 2 && heredoc == 1)
-			read_entry(argv[i], p_fd);
+			read_entry(argv[i], p_fd, cmd);
 		else if (i == argc - 2)
 			last_child(cmd, argv[argc - 1], p_fd, envp);
 		else

@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:35 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/07 11:52:54 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/07 15:19:57 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ int	exec_pipe(char **argv, char **envp)
 	if (pipe(pipe_fd) < 0)
 		return (0);
 	cmd = struct_command(argv[2], envp);
-	first_child(cmd, argv[1], pipe_fd, envp);
-	cmd = struct_command(argv[3], envp);
-	last_child(cmd, argv[4], pipe_fd, envp);
 	if (cmd == NULL)
 		command_error(argv[2]);
+	first_child(cmd, argv[1], pipe_fd, envp);
+	cmd = struct_command(argv[3], envp);
+	if (cmd == NULL)
+		command_error(argv[3]);
+	last_child(cmd, argv[4], pipe_fd, envp);
 	return (0);
 }
 
