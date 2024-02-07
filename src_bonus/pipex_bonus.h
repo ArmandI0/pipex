@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:46 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/06 12:18:47 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/07 13:14:46 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define FALSE 0
 # include <fcntl.h>
 # include <unistd.h>
+# include <stdio.h>
 # include <sys/wait.h>
 # include "../lib/libft/src/libft.h"
 
@@ -25,14 +26,8 @@ typedef struct s_command
 {
 	char	*command_path;
 	char	**command;
+	int		heredoc;
 }				t_command;
-
-typedef struct s_pipe
-{
-	int	pipe_fd1[2];
-	int pipe_fd2[2];
-	int	status;
-}				t_pipe;
 
 int			check_file_exist(char *path);
 char		*find_command_path(char **envp, char *command);
@@ -47,7 +42,6 @@ int			last_child(t_command *cmd, char *f_path, int p_fd[2], char **envp);
 t_command	*struct_command(char *arg, char **envp);
 int			close_pipe(int pipe_fd[2]);
 int			pipe_to_pipe_child(t_command *cmd, int p_fd[2], int new_pipe[2], char **envp);
-t_pipe		*init_s_pipe(void);
 int			exit_file_error(t_command *cmd, int p_fd[2], char *arg);
 char		*read_entry(char *limiter, int p_fd[2]);
 

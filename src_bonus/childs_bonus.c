@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:54:56 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/06 18:23:43 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/07 14:16:09 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	first_child(t_command *cmd, char *f_path, int pipe_fd[2], char **envp)
 		close_pipe(pipe_fd);
 		if (cmd != NULL)
 			execve(cmd->command_path, cmd->command, envp);
+		ft_putstr_fd("command not found: ", 2);
 		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, NULL, 0);
@@ -38,28 +39,28 @@ int	first_child(t_command *cmd, char *f_path, int pipe_fd[2], char **envp)
 	return (1);
 }
 
-int	pipe_to_pipe_child(t_command *cmd, int p_fd[2], int new_p_fd[2], char **envp)
+int	pipe_to_pipe_child(t_command *cmd, int p_fd[2], int new_fd[2], char **envp)
 {
 	int	pid;
 
 	pid = fork();
-	
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
 	{
 		dup2(p_fd[0], STDIN_FILENO);
-		dup2(new_p_fd[1], STDOUT_FILENO);
+		dup2(new_fd[1], STDOUT_FILENO);
 		close_pipe(p_fd);
-		close_pipe(new_p_fd);
+		close_pipe(new_fd);
 		if (cmd != NULL)
 			execve(cmd->command_path, cmd->command, envp);
+		ft_putstr_fd("command not found: ", 2);
 		exit(EXIT_FAILURE);
 	}
 	close_pipe(p_fd);
 	waitpid(pid, NULL, 0);
-	p_fd[0] = new_p_fd[0];
-	p_fd[1] = new_p_fd[1];
+	p_fd[0] = new_fd[0];
+	p_fd[1] = new_fd[1];
 	free_cmd_struct(cmd);
 	return (1);
 }
@@ -83,6 +84,7 @@ int	last_child(t_command *cmd, char *f_path, int p_fd[2], char **envp)
 		close(file_fd);
 		if (cmd != NULL)
 			execve(cmd->command_path, cmd->command, envp);
+		ft_putstr_fd("command not found: ", 2);
 		exit (EXIT_FAILURE);
 	}
 	close_pipe(p_fd);

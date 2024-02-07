@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:23:43 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/06 19:56:25 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/07 11:57:39 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*read_entry(char *limiter, int p_fd[2])
 {
-	
 	char	*tmp;
-	int size;
+	int		size;
+
 	size = ft_strlen(limiter);
 	tmp = ft_calloc(1, sizeof(char));
 	while (ft_strncmp(tmp, limiter, size) != 0)

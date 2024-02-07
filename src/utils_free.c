@@ -6,18 +6,18 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:27:15 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/30 10:57:06 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/07 11:47:15 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	close_and_finish(t_command *cmd, int pipe_fd[2], char *arg)
+int	exit_file_error(t_command *cmd, int p_fd[2], char *arg)
 {
 	free_cmd_struct(cmd);
-	close_pipe(pipe_fd);
+	close_pipe(p_fd);
 	file_error(arg);
-	return (1);
+	return (EXIT_FAILURE);
 }
 
 int	close_pipe(int pipe_fd[2])
@@ -32,12 +32,15 @@ void	free_cmd_struct(t_command *cmd)
 	int	i;
 
 	i = 0;
-	if (cmd->command != NULL)
-		free_split(cmd->command);
-	if (cmd->command != NULL)
-		free(cmd->command_path);
-	free(cmd);
-	cmd = NULL;
+	if (cmd != NULL)
+	{
+		if (cmd->command != NULL)
+			free_split(cmd->command);
+		if (cmd->command_path != NULL)
+			free(cmd->command_path);
+		free(cmd);
+		cmd = NULL;
+	}
 }
 
 void	free_split(char **split)
