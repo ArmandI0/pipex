@@ -6,13 +6,13 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:35 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/05 15:53:06 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/06 18:58:03 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	exec_pipe(int argc, char **argv, char **envp)
+void	exec_pipe(int argc, char **argv, char **envp, int heredoc)
 {
 	t_command	*cmd;
 	int			p_fd[2];
@@ -24,8 +24,13 @@ void	exec_pipe(int argc, char **argv, char **envp)
 	while (i < argc - 1)
 	{
 		cmd = struct_command(argv[i], envp);
-		if (i == 2)
+		if (i == 2 && heredoc == 0)
 			first_child(cmd, argv[1], p_fd, envp);
+		else if(i == 2 && heredoc == 1)
+		{
+			read_entry(argv[2], p_fd);
+			i++;
+		}
 		else if (i == argc - 2)
 			last_child(cmd, argv[argc - 1], p_fd, envp);
 		else
@@ -34,7 +39,7 @@ void	exec_pipe(int argc, char **argv, char **envp)
 				return ;
 			pipe_to_pipe_child(cmd, p_fd, new_p_fd, envp);
 		}
-		if (cmd == NULL)
+		if (cmd == NULL && (heredoc != 1 && i != 3))
 			command_error(argv[i]);
 		i++;
 	}
@@ -42,25 +47,16 @@ void	exec_pipe(int argc, char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	// t_command	*cmd;
-	// int			file_fd;
+	int	heredoc;
 
+	heredoc = 0;
 	if (argc < 5)
 	{
 		ft_putstr_fd("too few arguments\n", 2);
 		return (0);
 	}
-	// cmd = struct_command(argv[argc - 2], envp);
-	// if (cmd == NULL)
-	// {
-	// 	command_error(argv[3]);
-	// 	file_fd = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
-	// 	if (file_fd == -1)
-	// 		return (0);
-	// 	close(file_fd);
-	// 	return (1);
-	// }
-	// free_cmd_struct(cmd);
-	exec_pipe(argc, argv, envp);
+	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
+		heredoc = 1;
+	exec_pipe(argc, argv, envp, heredoc);
 	return (0);
 }

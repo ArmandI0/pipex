@@ -6,7 +6,7 @@
 #    By: aranger <aranger@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/12 12:15:59 by aranger           #+#    #+#              #
-#    Updated: 2024/01/30 11:13:21 by aranger          ###   ########.fr        #
+#    Updated: 2024/02/07 11:16:29 by aranger          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS_BONUS		=	\
 					main_bonus.c \
 					utils_bonus.c \
 					utils_free_bonus.c \
+					heredoc_bonus.c \
 
 SRC_BONUS		= $(addprefix src_bonus/, $(SRCS_BONUS))
 OBJS_BONUS		= $(SRC_BONUS:$(SRC_BONUS_DIR)/%.c=$(OBJ_BONUS_DIR)/%.o)
@@ -89,6 +90,7 @@ fclean: 		clean
 re:				fclean all
 
 bonus :			$(OBJS_BONUS) $(LIBFT_A)
+				@$(RM) $(NAME)
 				@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT_A) -o $(NAME)
 
 .PHONY : 		all clean fclean re bonus

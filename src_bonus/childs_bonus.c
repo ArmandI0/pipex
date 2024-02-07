@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:54:56 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/05 16:14:01 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/06 18:23:43 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,7 @@ int	last_child(t_command *cmd, char *f_path, int p_fd[2], char **envp)
 	{
 		file_fd = open(f_path, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (file_fd == -1)
-		{
-			close_pipe(p_fd);
 			exit(exit_file_error(cmd, p_fd, f_path));
-		}
 		dup2(p_fd[0], STDIN_FILENO);
 		dup2(file_fd, STDOUT_FILENO);
 		close_pipe(p_fd);

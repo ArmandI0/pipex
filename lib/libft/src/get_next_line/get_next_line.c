@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 17:49:08 by aranger           #+#    #+#             */
-/*   Updated: 2023/12/27 10:27:19 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/06 18:55:44 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,35 +39,6 @@ static char	*set_line(char *line)
 	}
 	cutline[i] = line[i];
 	return (cutline);
-}
-
-static char	*set_rest(char *line)
-{
-	char	*rest;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	if (!line)
-		return (NULL);
-	while (line[i] != '\n')
-	{
-		if (line[i] == '\0')
-			return (NULL);
-		i++;
-	}
-	i++;
-	rest = ft_calloc(ft_strlen(line) - i + 1, sizeof(char));
-	if (rest == NULL)
-		return (NULL);
-	while (line [i] != '\0')
-	{
-		rest[j] = line[i];
-		i++;
-		j++;
-	}
-	return (rest);
 }
 
 static char	*read_buffer(int fd, char *rest)
@@ -109,7 +80,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	tmp = read_buffer(fd, rest);
 	line = set_line(tmp);
-	rest = set_rest(tmp);
 	if (tmp)
 		free(tmp);
 	if (!line && !rest)

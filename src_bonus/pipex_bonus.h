@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:46 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/05 15:14:33 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/06 12:18:47 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ void		file_error(char *file);
 void		free_cmd_struct(t_command *cmd);
 int			first_child(t_command *cmd, char *f_path,
 				int pipe_fd[2], char **envp);
-int	last_child(t_command *cmd, char *f_path, int p_fd[2], char **envp);
+int			last_child(t_command *cmd, char *f_path, int p_fd[2], char **envp);
 t_command	*struct_command(char *arg, char **envp);
 int			close_pipe(int pipe_fd[2]);
 int			pipe_to_pipe_child(t_command *cmd, int p_fd[2], int new_pipe[2], char **envp);
 t_pipe		*init_s_pipe(void);
 int			exit_file_error(t_command *cmd, int p_fd[2], char *arg);
+char		*read_entry(char *limiter, int p_fd[2]);
 
 #endif

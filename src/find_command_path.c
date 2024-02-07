@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:11:41 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/30 10:53:55 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/06 19:39:18 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*find_command_path(char **envp, char *command)
 		return (NULL);
 	command_path = NULL;
 	split_command = ft_split(command, ' ');
-	if (check_path_acces(split_command[0]) == TRUE)
+	if (split_command[0] != NULL && check_path_acces(split_command[0]) == TRUE)
 	{
 		command_path = ft_strdup(split_command[0]);
 		return (command_path);
@@ -44,6 +44,8 @@ static char	*set_command_path(char **envp, char *command)
 	t_bool	access;
 
 	i = 0;
+	if (command == NULL)
+		return (NULL);
 	all_path = find_path(envp);
 	command_path = set_command(command);
 	all_path = join_path_command(all_path, command_path);
