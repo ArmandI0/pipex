@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:27:15 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/08 10:56:54 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/08 12:11:25 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exit_file_error(t_command *cmd, int p_fd[2], char *arg)
 	return (EXIT_FAILURE);
 }
 
-void	close_std(void)	
+void	close_std(void)
 {
 	close(0);
 	close(1);
@@ -56,11 +56,14 @@ void	free_split(char **split)
 	int	i;
 
 	i = 0;
-	while (split[i] != NULL)
+	if (split != NULL)
 	{
-		free(split[i]);
-		i++;
+		while (split[i] != NULL)
+		{
+			free(split[i]);
+			i++;
+		}
+		free(split);
+		split = NULL;
 	}
-	free(split);
-	split = NULL;
 }

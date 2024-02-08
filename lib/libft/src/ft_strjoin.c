@@ -6,13 +6,13 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 18:57:35 by aranger           #+#    #+#             */
-/*   Updated: 2024/01/17 13:24:31 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/08 12:01:53 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, int a)
 {
 	size_t	size;
 	size_t	i;
@@ -32,6 +32,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	str[i] = '\0';
 	ft_strlcat(str, s2, size);
-	free(s1);
+	if (a == 1)
+		free(s1);
 	return (str);
 }

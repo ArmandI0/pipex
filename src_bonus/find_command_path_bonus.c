@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:11:41 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/07 13:16:34 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/08 12:05:57 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*set_command_path(char **envp, char *command)
 	command_path = set_command(command);
 	all_path = join_path_command(all_path, command_path);
 	free(command_path);
-	while (all_path[i])
+	while (all_path != NULL && all_path[i])
 	{
 		access = check_path_acces(all_path[i]);
 		if (access == TRUE)
@@ -72,6 +72,8 @@ static char	**join_path_command(char **all_path, char *command)
 
 	i = 0;
 	join_path = NULL;
+	if (all_path == NULL)
+		return (NULL);
 	while (all_path[i])
 		i++;
 	join_path = ft_calloc(i + 1, sizeof(char *));
@@ -80,7 +82,7 @@ static char	**join_path_command(char **all_path, char *command)
 	i = 0;
 	while (all_path[i])
 	{
-		join_path[i] = ft_strjoin(all_path[i], command);
+		join_path[i] = ft_strjoin(all_path[i], command, 1);
 		i++;
 	}
 	free(all_path);
@@ -100,7 +102,8 @@ static char	**find_path(char **envp)
 		i++;
 	while (envp[i] && envp[i][j] && envp[i][j] != '=')
 		j++;
-	split_path = ft_split(&envp[i][j + 1], ':');
+	if (envp[i] != NULL)
+		split_path = ft_split(&envp[i][j + 1], ':');
 	return (split_path);
 }
 
