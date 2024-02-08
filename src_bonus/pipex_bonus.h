@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:46 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/07 17:13:04 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/08 10:57:22 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int			pipe_to_pipe_child(t_command *cmd, int p_fd[2],
 int			exit_file_error(t_command *cmd, int p_fd[2], char *arg);
 char		*read_entry(char *limiter, int p_fd[2], t_command *cmd);
 int			open_outfile(char *path, t_command *cmd);
+void		close_std(void);
 
 #endif

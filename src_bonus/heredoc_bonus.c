@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 17:23:43 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/07 14:54:06 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/08 11:12:42 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ char	*read_entry(char *limiter, int p_fd[2], t_command *cmd)
 			free(tmp);
 		ft_putstr_fd("heredoc >", STDOUT_FILENO);
 		tmp = get_next_line(0);
+		if (tmp == NULL)
+		{
+			tmp = ft_strdup("");
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}	
 	}
 	if (tmp != NULL)
 		free(tmp);

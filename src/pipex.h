@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:20:46 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/07 11:53:42 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/08 10:57:12 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ int			last_child(t_command *cmd, char *f_path,
 t_command	*struct_command(char *arg, char **envp);
 int			close_pipe(int pipe_fd[2]);
 int			exit_file_error(t_command *cmd, int p_fd[2], char *arg);
+void		close_std(void);
 
 #endif

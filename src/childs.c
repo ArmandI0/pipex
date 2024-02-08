@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:54:56 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/07 11:52:27 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/08 10:58:28 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	first_child(t_command *cmd, char *f_path, int pipe_fd[2], char **envp)
 		close_pipe(pipe_fd);
 		if (cmd != NULL)
 			execve(cmd->command_path, cmd->command, envp);
+		close_std();
 		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, NULL, 0);
@@ -57,6 +58,7 @@ int	last_child(t_command *cmd, char *f_path, int p_fd[2], char **envp)
 		close(file_fd);
 		if (cmd != NULL)
 			execve(cmd->command_path, cmd->command, envp);
+		close_std();
 		exit (EXIT_FAILURE);
 	}
 	close_pipe(p_fd);

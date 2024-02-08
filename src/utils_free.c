@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:27:15 by aranger           #+#    #+#             */
-/*   Updated: 2024/02/07 11:47:15 by aranger          ###   ########.fr       */
+/*   Updated: 2024/02/08 10:56:54 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,15 @@ int	exit_file_error(t_command *cmd, int p_fd[2], char *arg)
 	free_cmd_struct(cmd);
 	close_pipe(p_fd);
 	file_error(arg);
+	close_std();
 	return (EXIT_FAILURE);
+}
+
+void	close_std(void)	
+{
+	close(0);
+	close(1);
+	close(2);
 }
 
 int	close_pipe(int pipe_fd[2])
